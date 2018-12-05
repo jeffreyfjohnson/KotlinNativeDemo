@@ -17,21 +17,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 21))
-        label.center = CGPoint(x: 200, y: 285)
+        label.center = CGPoint(x: 200, y: 100)
         label.textAlignment = .center
         label.font = label.font.withSize(25)
         label.text = CommonKt.createApplicationScreenMessage()
         view.addSubview(label)
         
         countLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 21))
-        countLabel?.center = CGPoint(x: 200, y: 385)
+        countLabel?.center = CGPoint(x: 200, y: 200)
         countLabel?.textAlignment = .center
         countLabel?.font = label.font.withSize(25)
         countLabel?.text = "0"
         view.addSubview(countLabel!)
         
         let minusButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        minusButton.center = CGPoint(x: 160, y: 440)
+        minusButton.center = CGPoint(x: 160, y: 255)
         minusButton.backgroundColor = UIColor.blue
         minusButton.setTitleColor(UIColor.yellow, for: .normal)
         minusButton.setTitle("-", for: .normal)
@@ -39,7 +39,7 @@ class ViewController: UIViewController {
         minusButton.addTarget(self, action: #selector(minusClicked), for: .touchUpInside)
         
         let plusButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        plusButton.center = CGPoint(x: 240, y: 440)
+        plusButton.center = CGPoint(x: 240, y: 255)
         plusButton.backgroundColor = UIColor.blue
         plusButton.setTitleColor(UIColor.yellow, for: .normal)
         plusButton.setTitle("+", for: .normal)
