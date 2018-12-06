@@ -3,12 +3,11 @@ apply plugin: 'kotlinx-serialization'
 
 kotlin {
     targets {
-        fromPreset(presets.jvm, "android")
+        fromPreset(presets.jvm, 'android')
 
-        fromPreset(presets.iosX64, "ios_x86_64")
-        fromPreset(presets.iosArm64, "ios_arm64")
-        configure([ios_x86_64, ios_arm64]) {
-            compilations.main.outputKinds("FRAMEWORK")
+        // Change to `presets.iosArm64` to deploy the app to iPhone
+        fromPreset(presets.iosX64, 'ios') {
+            compilations.main.outputKinds('FRAMEWORK')
         }
     }
 
@@ -53,14 +52,20 @@ configurations {
 
 task packForXCode(type: Sync) {
     final File frameworkDir = new File(buildDir, "xcode-frameworks")
+    final String mode = project.findProperty("XCODE_CONFIGURATION")?.toUpperCase() ?: 'DEBUG'
 
-    final String configuration = project.findProperty("CONFIGURATION")?.toUpperCase() ?: "DEBUG"
-    final String arch = project.findProperty("ARCHS") ?: "x86_64"
+    inputs.property "mode", mode
+    dependsOn kotlin.targets.ios.compilations.main.linkTaskName("FRAMEWORK", mode)
 
-    dependsOn kotlin.targets."ios_${arch}".compilations.main.linkTaskName("FRAMEWORK", configuration)
-
-    from { kotlin.targets."ios_${arch}".compilations.main.getBinary("FRAMEWORK", configuration).parentFile }
+    from { kotlin.targets.ios.compilations.main.getBinary("FRAMEWORK", mode).parentFile }
     into frameworkDir
+
+    doLast {
+        new File(frameworkDir, 'gradlew').with {
+            text = "#!/bin/bash\nexport 'JAVA_HOME=${System.getProperty("java.home")}'\ncd '${rootProject.rootDir}'\n./gradlew \$@\n"
+            setExecutable(true)
+        }
+    }
 }
 
 tasks.build.dependsOn packForXCode

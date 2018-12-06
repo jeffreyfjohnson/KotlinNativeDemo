@@ -13,6 +13,8 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JSON
 import kotlinx.serialization.json.json
 
+internal expect val ApplicationDispatcher: CoroutineDispatcher
+
 class TimeZoneApi {
 
     private val apiClient = HttpClient {
@@ -38,7 +40,7 @@ class TimeZoneApi {
     }
 
     fun getTimeZone(lat: Double, lng: Double, timestamp: Long, timeZoneFoundAction: (TimeZoneResponse) -> Unit) {
-        GlobalScope.launch {
+        GlobalScope.launch(ApplicationDispatcher) {
             val response = getTimeZone(lat, lng, timestamp)
             timeZoneFoundAction(response)
         }

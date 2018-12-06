@@ -59,8 +59,6 @@ class ViewController: UIViewController {
             timeZoneLabel.text = response.zoneName
             return KotlinUnit.init()
         })
-        
-
     }
     
     @objc private func plusClicked() {
@@ -70,6 +68,5 @@ class ViewController: UIViewController {
     @objc private func minusClicked() {
         countLabel?.text = String(counter.decrement())
     }
-
 }
 
