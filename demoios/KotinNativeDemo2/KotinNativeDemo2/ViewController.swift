@@ -13,6 +13,9 @@ class ViewController: UIViewController {
 
     let counter = Counter(storage: PlatformStorage())
     var countLabel: UILabel? = nil
+    var timeZoneLabel: UILabel? = nil
+    var latTextField: UITextField? = nil
+    var lngTextField: UITextField? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,19 +49,34 @@ class ViewController: UIViewController {
         view.addSubview(plusButton)
         plusButton.addTarget(self, action: #selector(plusClicked), for: .touchUpInside)
         
-        let timeZoneLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 30))
-        timeZoneLabel.center = CGPoint(x: 200, y: 355)
-        timeZoneLabel.textAlignment = .center
-        timeZoneLabel.font = timeZoneLabel.font.withSize(25)
-        timeZoneLabel.text = "TimeZone goes here"
-        view.addSubview(timeZoneLabel)
+        latTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+        latTextField?.center = CGPoint(x: 120, y: 355)
+        latTextField?.text = "39.7392"
+        view.addSubview(latTextField!)
+        
+        lngTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+        lngTextField?.center = CGPoint(x: 280, y: 355)
+        lngTextField?.text = "-104.9903"
+        view.addSubview(lngTextField!)
+        
+        let searchButton = UIButton(frame: CGRect(x: 0, y: 0, width: 70, height: 40))
+        searchButton.center = CGPoint(x: 200, y: 455)
+        searchButton.backgroundColor = UIColor.blue
+        searchButton.setTitleColor(UIColor.yellow, for: .normal)
+        searchButton.setTitle("Search", for: .normal)
+        view.addSubview(searchButton)
+        searchButton.addTarget(self, action: #selector(searchClicked), for: .touchUpInside)
+        
+        timeZoneLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 30))
+        timeZoneLabel?.center = CGPoint(x: 200, y: 555)
+        timeZoneLabel?.textAlignment = .center
+        timeZoneLabel?.font = timeZoneLabel?.font.withSize(25)
+        timeZoneLabel?.text = "TimeZone goes here"
+        view.addSubview(timeZoneLabel!)
         
         countLabel!.text = String(counter.getCurrent())
         
-        TimeZoneApi().getTimeZone(lat: 39.734, lng: -104.786, timestamp: Int64(Date().timeIntervalSinceNow), timeZoneFoundAction: {(response: TimeZoneResponse) -> KotlinUnit in
-            timeZoneLabel.text = response.zoneName
-            return KotlinUnit.init()
-        })
+    
     }
     
     @objc private func plusClicked() {
@@ -67,6 +85,15 @@ class ViewController: UIViewController {
     
     @objc private func minusClicked() {
         countLabel?.text = String(counter.decrement())
+    }
+    
+    @objc private func searchClicked() {
+        let lat = Double(latTextField!.text!)
+        let lng = Double(lngTextField!.text!)
+        TimeZoneApi().getTimeZone(lat: lat!, lng: lng!, timestamp: Int64(Date().timeIntervalSinceNow), timeZoneFoundAction: {(response: TimeZoneResponse) -> KotlinUnit in
+            self.timeZoneLabel?.text = response.zoneName
+            return KotlinUnit.init()
+        })
     }
 }
 
