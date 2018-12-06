@@ -1,2 +1,4 @@
-include ':app'
-include ':commoncode'
+enableFeaturePreview("GRADLE_METADATA") // this fixes ktor not compiling on packForXCode gradle task, what the fuck?
+
+include 'commoncode'
+include 'app'

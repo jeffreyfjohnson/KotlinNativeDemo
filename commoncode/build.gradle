@@ -12,10 +12,6 @@ kotlin {
         }
     }
 
-    def coroutines_version='1.0.0'
-    def ktor_version='1.0.0'
-    def serialization_version='0.9.1'
-
     sourceSets {
         commonMain.dependencies {
             implementation "org.jetbrains.kotlin:kotlin-stdlib"

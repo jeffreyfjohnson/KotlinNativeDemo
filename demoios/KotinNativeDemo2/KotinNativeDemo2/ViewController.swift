@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         countLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 21))
         countLabel?.center = CGPoint(x: 200, y: 200)
         countLabel?.textAlignment = .center
-        countLabel?.font = label.font.withSize(25)
+        countLabel?.font = countLabel?.font?.withSize(25)
         countLabel?.text = "0"
         view.addSubview(countLabel!)
         
@@ -46,7 +46,20 @@ class ViewController: UIViewController {
         view.addSubview(plusButton)
         plusButton.addTarget(self, action: #selector(plusClicked), for: .touchUpInside)
         
+        let timeZoneLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 21))
+        timeZoneLabel.center = CGPoint(x: 200, y: 355)
+        timeZoneLabel.textAlignment = .center
+        timeZoneLabel.font = timeZoneLabel.font.withSize(25)
+        timeZoneLabel.text = "TimeZone goes here"
+        view.addSubview(timeZoneLabel)
+        
         countLabel!.text = String(counter.getCurrent())
+        
+        TimeZoneApi().getTimeZone(lat: 39.734, lng: -104.786, timestamp: Int64(Date().timeIntervalSinceNow), timeZoneFoundAction: {(response: TimeZoneResponse) -> KotlinUnit in
+            timeZoneLabel.text = response.zoneName
+            return KotlinUnit.init()
+        })
+        
 
     }
     
