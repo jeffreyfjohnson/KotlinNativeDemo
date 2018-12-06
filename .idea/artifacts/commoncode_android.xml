@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="commoncode-android">
-    <output-path>$PROJECT_DIR$/commoncode/build/libs</output-path>
-    <root id="archive" name="commoncode-android.jar">
-      <element id="module-output" name="commoncode_androidMain" />
-    </root>
-  </artifact>
-</component>
