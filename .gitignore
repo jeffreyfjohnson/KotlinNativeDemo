@@ -38,3 +38,5 @@ fastlane/test_output/
 .bundle/
 vendor/
 tests.txt
+*.iml
+*.xcuserstate
