@@ -46,7 +46,7 @@ class ViewController: UIViewController {
         view.addSubview(plusButton)
         plusButton.addTarget(self, action: #selector(plusClicked), for: .touchUpInside)
         
-        let timeZoneLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 21))
+        let timeZoneLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 30))
         timeZoneLabel.center = CGPoint(x: 200, y: 355)
         timeZoneLabel.textAlignment = .center
         timeZoneLabel.font = timeZoneLabel.font.withSize(25)
