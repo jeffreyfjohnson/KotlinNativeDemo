@@ -26,25 +26,31 @@ class TimeZoneApi {
         }
     }
 
-    suspend fun getTimeZone(lat: Double, lng: Double, timestamp: Long): TimeZoneResponse = apiClient.get {
+    suspend fun getTimeZone(positionAndTime: PositionAndTime): TimeZoneResponse = apiClient.get {
         url {
             takeFrom("http://api.timezonedb.com")
             path("v2.1", "get-time-zone")
-            parameter("time", timestamp.toString())
+            parameter("time", positionAndTime.timestamp.toString())
             parameter("key", "CMPGTEE6S4YB")
             parameter("by", "position")
-            parameter("lat", lat.toString())
-            parameter("lng", lng.toString())
+            parameter("lat", positionAndTime.lat.toString())
+            parameter("lng", positionAndTime.lng.toString())
             parameter("format", "json")
         }
     }
 
-    fun getTimeZone(lat: Double, lng: Double, timestamp: Long, timeZoneFoundAction: (TimeZoneResponse) -> Unit) {
+    fun getTimeZone(positionAndTime: PositionAndTime, timeZoneFoundAction: (TimeZoneResponse) -> Unit) {
         GlobalScope.launch(ApplicationDispatcher) {
-            val response = getTimeZone(lat, lng, timestamp)
+            val response = getTimeZone(positionAndTime)
             timeZoneFoundAction(response)
         }
     }
+}
+
+interface PositionAndTime{
+    val lat: Double
+    val lng: Double
+    val timestamp: Long
 }
 
 @Serializable

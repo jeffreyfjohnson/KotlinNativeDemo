@@ -3,6 +3,7 @@ package com.gospotcheck.android.kotlinenativedemo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.gospotcheck.android.mpp.Counter
+import com.gospotcheck.android.mpp.PositionAndTime
 import com.gospotcheck.android.mpp.TimeZoneApi
 import com.gospotcheck.android.mpp.createApplicationScreenMessage
 import kotlinx.android.synthetic.main.activity_main.*
@@ -49,7 +50,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun searchTimeZone(api: TimeZoneApi, lat: Double, lng: Double, timestamp: Long) {
         GlobalScope.launch(Dispatchers.Main) {
-            val response = api.getTimeZone(lat, lng, timestamp)
+            val positionAndTime = AndroidPositionAndTime(lat, lng, timestamp)
+            val response = api.getTimeZone(positionAndTime)
             timeZoneTextView.text = response.zoneName
         }
     }

@@ -90,10 +90,23 @@ class ViewController: UIViewController {
     @objc private func searchClicked() {
         let lat = Double(latTextField!.text!)
         let lng = Double(lngTextField!.text!)
-        TimeZoneApi().getTimeZone(lat: lat!, lng: lng!, timestamp: Int64(Date().timeIntervalSinceNow), timeZoneFoundAction: {(response: TimeZoneResponse) -> KotlinUnit in
+        let timestamp = Int64(Date().timeIntervalSinceNow)
+        let positionAndTime = SwiftPositionAndTime(lat: lat!, lng: lng!, timestamp: timestamp)
+        TimeZoneApi().getTimeZone(positionAndTime: positionAndTime, timeZoneFoundAction: {(response: TimeZoneResponse) -> KotlinUnit in
             self.timeZoneLabel?.text = response.zoneName
             return KotlinUnit.init()
         })
     }
 }
 
+class SwiftPositionAndTime: NSObject, PositionAndTime {
+    var lat: Double
+    var lng: Double
+    var timestamp: Int64
+    
+    public init(lat: Double, lng: Double, timestamp: Int64) {
+        self.lat = lat
+        self.lng = lng
+        self.timestamp = timestamp
+    }
+}
