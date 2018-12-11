@@ -75,8 +75,6 @@ class ViewController: UIViewController {
         view.addSubview(timeZoneLabel!)
         
         countLabel!.text = String(counter.getCurrent())
-        
-    
     }
     
     @objc private func plusClicked() {
@@ -92,6 +90,7 @@ class ViewController: UIViewController {
         let lng = Double(lngTextField!.text!)
         let timestamp = Int64(Date().timeIntervalSinceNow)
         let positionAndTime = SwiftPositionAndTime(lat: lat!, lng: lng!, timestamp: timestamp)
+    
         TimeZoneApi().getTimeZone(positionAndTime: positionAndTime, timeZoneFoundAction: {(response: TimeZoneResponse) -> KotlinUnit in
             self.timeZoneLabel?.text = response.zoneName
             return KotlinUnit.init()
@@ -109,4 +108,6 @@ class SwiftPositionAndTime: NSObject, PositionAndTime {
         self.lng = lng
         self.timestamp = timestamp
     }
+    
+    
 }

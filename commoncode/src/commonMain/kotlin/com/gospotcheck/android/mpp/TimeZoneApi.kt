@@ -11,7 +11,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JSON
-import kotlinx.serialization.json.json
 
 internal expect val ApplicationDispatcher: CoroutineDispatcher
 
@@ -19,9 +18,8 @@ class TimeZoneApi {
 
     private val apiClient = HttpClient {
         install(JsonFeature) {
-            serializer = KotlinxSerializer().apply {
+            serializer = KotlinxSerializer(json = JSON.nonstrict).apply {
                 setMapper(TimeZoneResponse::class, TimeZoneResponse.serializer())
-                JSON.nonstrict
             }
         }
     }
@@ -45,9 +43,10 @@ class TimeZoneApi {
             timeZoneFoundAction(response)
         }
     }
+
 }
 
-interface PositionAndTime{
+interface PositionAndTime {
     val lat: Double
     val lng: Double
     val timestamp: Long
