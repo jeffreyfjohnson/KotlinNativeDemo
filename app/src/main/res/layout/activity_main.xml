@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal">
 
     <TextView
         android:id="@+id/mainTextView"
@@ -41,4 +42,45 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <EditText android:id="@+id/latEditText"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:hint="latitude"/>
+
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="1dp" />
+
+        <EditText android:id="@+id/lngEditText"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:hint="longitude"/>
+
+    </LinearLayout>
+
+    <Button android:id="@+id/searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search For Time Zone"/>
+
+    <TextView android:id="@+id/timeZoneTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="America/Denver"
+        android:layout_marginTop="24dp"
+        android:textSize="34sp"
+        android:textColor="@color/colorAccent"/>
 </LinearLayout>

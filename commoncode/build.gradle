@@ -1,24 +1,43 @@
 apply plugin: 'kotlin-multiplatform'
+apply plugin: 'kotlinx-serialization'
 
 kotlin {
     targets {
-        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") \
-                              ? presets.iosArm64 : presets.iosX64
+        fromPreset(presets.jvm, 'android')
 
-        fromPreset(iOSTarget, 'iOS') {
+        // Change to `presets.iosArm64` to deploy the app to iPhone
+        fromPreset(presets.iosX64, 'ios') {
             compilations.main.outputKinds('FRAMEWORK')
         }
-
-        fromPreset(presets.jvm, 'android')
     }
 
     sourceSets {
         commonMain.dependencies {
-            api 'org.jetbrains.kotlin:kotlin-stdlib-common'
+            implementation "org.jetbrains.kotlin:kotlin-stdlib"
+            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutines_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization_version"
+
+            implementation "io.ktor:ktor-client-core:$ktor_version"
+            implementation "io.ktor:ktor-client-json:$ktor_version"
         }
 
         androidMain.dependencies {
-            api 'org.jetbrains.kotlin:kotlin-stdlib'
+            implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+
+            implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
+            implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
+        }
+
+        iosMain.dependencies {
+            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutines_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serialization_version"
+
+            implementation "io.ktor:ktor-client-ios:$ktor_version"
+            implementation "io.ktor:ktor-client-core-ios:$ktor_version"
+            implementation "io.ktor:ktor-client-json-ios:$ktor_version"
         }
     }
 }
@@ -33,9 +52,9 @@ task packForXCode(type: Sync) {
     final String mode = project.findProperty("XCODE_CONFIGURATION")?.toUpperCase() ?: 'DEBUG'
 
     inputs.property "mode", mode
-    dependsOn kotlin.targets.iOS.compilations.main.linkTaskName("FRAMEWORK", mode)
+    dependsOn kotlin.targets.ios.compilations.main.linkTaskName("FRAMEWORK", mode)
 
-    from { kotlin.targets.iOS.compilations.main.getBinary("FRAMEWORK", mode).parentFile }
+    from { kotlin.targets.ios.compilations.main.getBinary("FRAMEWORK", mode).parentFile }
     into frameworkDir
 
     doLast {

@@ -39,3 +39,4 @@ fastlane/test_output/
 vendor/
 tests.txt
 *.iml
+*.xcuserstate

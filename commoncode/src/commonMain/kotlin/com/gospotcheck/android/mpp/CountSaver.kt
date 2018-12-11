@@ -4,7 +4,7 @@ package com.gospotcheck.android.mpp
 class Counter(private val storage: Storage) {
     companion object {
         private const val COUNT_KEY = "count"
-        private const val STEP = 2
+        private const val STEP = 1
     }
 
     fun getCurrent(): Long = storage.retrieveNum(COUNT_KEY)
