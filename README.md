@@ -1,6 +1,8 @@
 # KotlinNativeDemo
 Spike on compiling Kotlin code into a binary Framework that we can use in iOS code. The cool thing about this is that it is not all-or-nothing. An iOS app can be written 100% in Objective-C/Swift, and use just one class written in Kotlin, exported to a Framework. Swift code calls the Kotlin class as if it were written in Swift. It should be very easy to test the waters without committing to a huge change.
 
+There are some considerations around importing the Framework itself (see the iOS Framework subheader below), as well as considerations of how we get updated versions of the shared code/Framework to the iOS project seamlessly. Debugging is also unknown
+
 ## Areas of interest
 ### Counting and saving to defaults
 [The CountSaver file](https://github.com/jeffreyfjohnson/KotlinNativeDemo/blob/master/commoncode/src/commonMain/kotlin/com/gospotcheck/android/mpp/CountSaver.kt) in the common kotlin module has two classes:
@@ -12,8 +14,6 @@ Spike on compiling Kotlin code into a binary Framework that we can use in iOS co
 [PlatformStorage](https://github.com/jeffreyfjohnson/KotlinNativeDemo/blob/master/app/src/main/java/com/gospotcheck/android/kotlinenativedemo/PlatformStorage.kt) in the Android **app** implements the `Storage` interface with `SharedPreferences` as the backing storage
 
 [MainActivity in the Android app](https://github.com/jeffreyfjohnson/KotlinNativeDemo/blob/master/app/src/main/java/com/gospotcheck/android/kotlinenativedemo/MainActivity.kt) and [ViewController in the iOS app, written in Swift](https://github.com/jeffreyfjohnson/KotlinNativeDemo/blob/master/demoios/KotinNativeDemo2/KotinNativeDemo2/ViewController.swift) new up a `Counter` with the Android and iOS `PlatformStorage` implementations, respectively, then hook up buttons and text view to display and increment/decrement the count.
-
-There are some considerations around importing the Framework itself (see the iOS Framework subheader below), as well as considerations of how we get updated versions of the shared code/Framework to the iOS project seamlessly
 
 ### Making an API request
 [TimeZoneApi](https://github.com/jeffreyfjohnson/KotlinNativeDemo/blob/master/commoncode/src/commonMain/kotlin/com/gospotcheck/android/mpp/TimeZoneApi.kt) in the common kotlin module has two classes or interest:
