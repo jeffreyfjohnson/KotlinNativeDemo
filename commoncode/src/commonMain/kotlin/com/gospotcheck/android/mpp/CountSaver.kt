@@ -12,6 +12,7 @@ class Counter(private val storage: Storage) {
     fun increment(): Long {
         val currentNum = getCurrent()
         val newNum = currentNum + STEP
+        Logger().d("incrementing count to $newNum")
         storage.saveNum(COUNT_KEY, newNum)
         return newNum
     }
@@ -27,4 +28,8 @@ class Counter(private val storage: Storage) {
 interface Storage {
     fun saveNum(key: String, num: Long)
     fun retrieveNum(key: String): Long
+}
+
+expect class Logger() {
+    fun d(message: String, tag: String = "DEBUG")
 }
