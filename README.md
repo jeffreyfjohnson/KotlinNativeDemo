@@ -32,3 +32,5 @@ There are some considerations around importing the Framework itself (see the iOS
  [The build.gradle file](https://github.com/jeffreyfjohnson/KotlinNativeDemo/blob/master/commoncode/build.gradle) in the common module has the gradle tasks which enable an iOS Framework to be exported from Kotlin code. Right now the only architectures that are supported are Arm64, for iPhone > 5, and X64, for simulator
  
  Also, we [disabled bitcode](https://kotlinlang.org/docs/tutorials/native/mpp-ios-android.html#creating-ios-application) for this XCode project, although I do believe we can make it work with bitcode enabled if that's an issue
+ 
+ Should look into [this setup](https://novemberfive.co/blog/opensourcing-kotlin-multiplatform-standard-github), their use case is similar to ours, in that they share code across separate iOS/Android repos, using Maven/Cocoapods
